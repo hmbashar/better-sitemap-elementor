@@ -14,7 +14,7 @@ class Better_Sitemap_Widget extends Widget_Base
 
     public function get_title()
     {
-        return __('Better Sitemap', 'plugin-name');
+        return __('Better Sitemap', 'better-sitemap-elementor');
     }
 
     public function get_icon()
@@ -34,7 +34,7 @@ class Better_Sitemap_Widget extends Widget_Base
         // CONTENT: Sitemap Items
         // ========================
         $this->start_controls_section('content_section', [
-            'label' => __('Better Sitemap Items', 'plugin-name'),
+            'label' => __('Better Sitemap Items', 'better-sitemap-elementor'),
         ]);
 
         // Páginas e posts
@@ -53,18 +53,18 @@ class Better_Sitemap_Widget extends Widget_Base
         $repeater = new Repeater();
 
         $repeater->add_control('item_type', [
-            'label' => __('Item Type', 'plugin-name'),
+            'label' => __('Item Type', 'better-sitemap-elementor'),
             'type' => Controls_Manager::SELECT,
             'default' => 'page',
             'options' => [
-                'page' => __('Page', 'plugin-name'),
-                'post' => __('Post', 'plugin-name'),
-                'column_break' => __('Column Break', 'plugin-name'),
+                'page' => __('Page', 'better-sitemap-elementor'),
+                'post' => __('Post', 'better-sitemap-elementor'),
+                'column_break' => __('Column Break', 'better-sitemap-elementor'),
             ],
         ]);
 
         $repeater->add_control('page_id', [
-            'label' => __('Page', 'plugin-name'),
+            'label' => __('Page', 'better-sitemap-elementor'),
             'type' => Controls_Manager::SELECT,
             'options' => $page_options,
             'condition' => ['item_type' => 'page'],
@@ -76,7 +76,7 @@ class Better_Sitemap_Widget extends Widget_Base
         ]);
 
         $repeater->add_control('post_id', [
-            'label' => __('Post', 'plugin-name'),
+            'label' => __('Post', 'better-sitemap-elementor'),
             'type' => Controls_Manager::SELECT,
             'options' => $post_options,
             'condition' => ['item_type' => 'post'],
@@ -88,7 +88,7 @@ class Better_Sitemap_Widget extends Widget_Base
         ]);
 
         $this->add_control('sitemap_items', [
-            'label' => __('Sitemap Items', 'plugin-name'),
+            'label' => __('Sitemap Items', 'better-sitemap-elementor'),
             'type' => Controls_Manager::REPEATER,
             'fields' => $repeater->get_controls(),
             'title_field' => '{{{ item_type === "column_break" ? "— Column Break —" : ( item_type === "page" ? ( page_title ? page_title : "Page" ) : ( item_type === "post" ? ( post_title ? post_title : "Post" ) : "" ) ) }}}',
@@ -102,25 +102,25 @@ class Better_Sitemap_Widget extends Widget_Base
 
         for ($i = 1; $i <= 3; $i++) {
             $this->start_controls_section("style_level{$i}_section", [
-                'label' => __("Level $i", 'plugin-name'),
+                'label' => __("Level $i", 'better-sitemap-elementor'),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]);
 
             $this->add_control("show_icon_level{$i}", [
-                'label' => __('Show Icon', 'plugin-name'),
+                'label' => __('Show Icon', 'better-sitemap-elementor'),
                 'type' => Controls_Manager::SWITCHER,
                 'default' => 'yes',
             ]);
 
             $this->add_control("icon_level{$i}", [
-                'label' => __('Icon', 'plugin-name'),
+                'label' => __('Icon', 'better-sitemap-elementor'),
                 'type' => Controls_Manager::ICONS,
                 'default' => ['value' => 'fas fa-circle', 'library' => 'fa-solid'],
                 'condition' => ["show_icon_level{$i}" => 'yes'],
             ]);
 
             $this->add_responsive_control("icon_size_level{$i}", [
-                'label' => __('Icon Size', 'plugin-name'),
+                'label' => __('Icon Size', 'better-sitemap-elementor'),
                 'type' => Controls_Manager::SLIDER,
                 'range' => [
                     'px' => ['min' => 10, 'max' => 100],
@@ -132,7 +132,7 @@ class Better_Sitemap_Widget extends Widget_Base
             ]);
 
             $this->add_control("icon_color_level{$i}", [
-                'label' => __('Icon Color', 'plugin-name'),
+                'label' => __('Icon Color', 'better-sitemap-elementor'),
                 'type' => Controls_Manager::COLOR,
                 'default' => '#000000',
                 'condition' => ["show_icon_level{$i}" => 'yes'],
@@ -144,7 +144,7 @@ class Better_Sitemap_Widget extends Widget_Base
             $this->start_controls_tabs("tabs_typography_level{$i}");
 
             $this->start_controls_tab("tab_typography_level{$i}_normal", [
-                'label' => __('Normal', 'plugin-name'),
+                'label' => __('Normal', 'better-sitemap-elementor'),
             ]);
             $this->add_group_control(Group_Control_Typography::get_type(), [
                 'name' => "typography_level{$i}_normal",
@@ -153,7 +153,7 @@ class Better_Sitemap_Widget extends Widget_Base
             $this->end_controls_tab();
 
             $this->start_controls_tab("tab_typography_level{$i}_hover", [
-                'label' => __('Hover', 'plugin-name'),
+                'label' => __('Hover', 'better-sitemap-elementor'),
             ]);
             $this->add_group_control(Group_Control_Typography::get_type(), [
                 'name' => "typography_level{$i}_hover",
@@ -162,7 +162,7 @@ class Better_Sitemap_Widget extends Widget_Base
             $this->end_controls_tab();
 
             $this->start_controls_tab("tab_typography_level{$i}_active", [
-                'label' => __('Active', 'plugin-name'),
+                'label' => __('Active', 'better-sitemap-elementor'),
             ]);
             $this->add_group_control(Group_Control_Typography::get_type(), [
                 'name' => "typography_level{$i}_active",
@@ -174,7 +174,7 @@ class Better_Sitemap_Widget extends Widget_Base
 
 
             $this->add_control("color_level{$i}", [
-                'label' => __('Text Color', 'plugin-name'),
+                'label' => __('Text Color', 'better-sitemap-elementor'),
                 'type' => Controls_Manager::COLOR,
                 'default' => '#000000',
                 'selectors' => [
@@ -183,7 +183,7 @@ class Better_Sitemap_Widget extends Widget_Base
             ]);
 
             $this->add_responsive_control("margin_left_level{$i}", [
-                'label' => __('Margin Left', 'plugin-name'),
+                'label' => __('Margin Left', 'better-sitemap-elementor'),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => ['px', '%'],
                 'range' => [
@@ -201,12 +201,12 @@ class Better_Sitemap_Widget extends Widget_Base
         // STYLE: Columns
         // ========================
         $this->start_controls_section('style_columns_section', [
-            'label' => __('Column Settings', 'plugin-name'),
+            'label' => __('Column Settings', 'better-sitemap-elementor'),
             'tab' => Controls_Manager::TAB_STYLE,
         ]);
 
         $this->add_responsive_control('column_width', [
-            'label' => __('Column Width', 'plugin-name'),
+            'label' => __('Column Width', 'better-sitemap-elementor'),
             'type' => Controls_Manager::SLIDER,
             'size_units' => ['px', '%'],
             'range' => [
@@ -218,19 +218,19 @@ class Better_Sitemap_Widget extends Widget_Base
         ]);
 
         $this->add_control('columns_alignment', [
-            'label' => __('Alignment', 'plugin-name'),
+            'label' => __('Alignment', 'better-sitemap-elementor'),
             'type' => Controls_Manager::CHOOSE,
             'options' => [
                 'flex-start' => [
-                    'title' => __('Left', 'plugin-name'),
+                    'title' => __('Left', 'better-sitemap-elementor'),
                     'icon' => 'eicon-text-align-left',
                 ],
                 'center' => [
-                    'title' => __('Center', 'plugin-name'),
+                    'title' => __('Center', 'better-sitemap-elementor'),
                     'icon' => 'eicon-text-align-center',
                 ],
                 'flex-end' => [
-                    'title' => __('Right', 'plugin-name'),
+                    'title' => __('Right', 'better-sitemap-elementor'),
                     'icon' => 'eicon-text-align-right',
                 ],
             ],
@@ -241,19 +241,19 @@ class Better_Sitemap_Widget extends Widget_Base
         ]);
 
         $this->add_control('content_alignment', [
-            'label' => __('Content Alignment', 'plugin-name'),
+            'label' => __('Content Alignment', 'better-sitemap-elementor'),
             'type' => Controls_Manager::CHOOSE,
             'options' => [
                 'left' => [
-                    'title' => __('Left', 'plugin-name'),
+                    'title' => __('Left', 'better-sitemap-elementor'),
                     'icon' => 'eicon-text-align-left',
                 ],
                 'center' => [
-                    'title' => __('Center', 'plugin-name'),
+                    'title' => __('Center', 'better-sitemap-elementor'),
                     'icon' => 'eicon-text-align-center',
                 ],
                 'right' => [
-                    'title' => __('Right', 'plugin-name'),
+                    'title' => __('Right', 'better-sitemap-elementor'),
                     'icon' => 'eicon-text-align-right',
                 ],
             ],

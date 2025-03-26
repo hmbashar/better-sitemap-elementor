@@ -4,9 +4,17 @@
  * Description: A customizable footer sitemap widget for Elementor.
  * Version: 1.03
  * Author: Pedro de Barros
+ * Text Domain: better-sitemap-elementor
+ * Domain Path: /languages
  */
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
+// Load plugin textdomain
+function better_sitemap_elementor_load_textdomain() {
+    load_plugin_textdomain('better-sitemap-elementor', false, dirname(plugin_basename(__FILE__)) . '/languages');
+}
+add_action('plugins_loaded', 'better_sitemap_elementor_load_textdomain');
 
 // Register the widget
 add_action('elementor/widgets/register', function($widgets_manager) {
