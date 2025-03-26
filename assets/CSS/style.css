@@ -1,0 +1,21 @@
+.better-sitemap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.sitemap-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.sitemap-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.sitemap-item .item-icon {
+  font-size: 0.8em;
+}
