@@ -277,7 +277,7 @@ class Better_Sitemap_Widget extends Widget_Base
         $settings = $this->get_settings_for_display();
         $items = $settings['sitemap_items'];
 
-        echo '<div class="better-sitemap" style="display: flex; flex-wrap: wrap; gap: 30px;">';
+        echo '<div class="better-sitemap">';
         echo '<div class="sitemap-column">';
 
         foreach ($items as $item) {

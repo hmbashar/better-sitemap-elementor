@@ -19,13 +19,19 @@ add_action('plugins_loaded', 'better_sitemap_elementor_load_textdomain');
 // Register the widget
 add_action('elementor/widgets/register', function($widgets_manager) {
     require_once(__DIR__ . '/widgets/better-sitemap-widget.php');
+    require_once(__DIR__ . '/widgets/sitemap.php');
     $widgets_manager->register(new \Elementor\Better_Sitemap_Widget());
+    $widgets_manager->register(new \Elementor\Sitemap_Widget());
 });
 
-// Load CSS/JS if needed
-add_action('elementor/frontend/after_enqueue_styles', function() {
-    wp_enqueue_style('better-sitemap-style', plugin_dir_url(__FILE__) . 'assets/style.css');
-});
+// Enqueue frontend styles
+function enqueue_better_sitemap_styles() {
+    wp_enqueue_style(
+        'better-sitemap-style',
+        plugin_dir_url(__FILE__) . 'assets/css/style.css'
+    );
+}
+add_action('wp_enqueue_scripts', 'enqueue_better_sitemap_styles');
 
 // Load admin.js script
 function enqueue_better_sitemap_admin_scripts() {

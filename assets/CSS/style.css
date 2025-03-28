@@ -1,21 +1,51 @@
-.better-sitemap {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
+.better-sitemap-container {
+    padding: 20px;
 }
 
-.sitemap-column {
-  display: flex;
-  flex-direction: column;
+.sitemap-section {
+    margin-bottom: 30px;
 }
 
 .sitemap-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
-.sitemap-item .item-icon {
-  font-size: 0.8em;
+.sitemap-item i, 
+.sitemap-item svg {
+    margin-right: 10px;
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.sitemap-item a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.sitemap-item a:hover {
+    color: #4054b2;
+}
+.better-sitemap-list svg {
+    width: 10px;
+    height: 10px;
+}
+.better-sitemap-list,
+[class^="better-sitemap-child-level-"] {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
+}
+.better-sitemap-child-level-1 { margin-left: 20px; }
+.better-sitemap-child-level-2 { margin-left: 30px; }
+.better-sitemap-child-level-3 { margin-left: 40px; }
+
+.better-sitemap-list span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
