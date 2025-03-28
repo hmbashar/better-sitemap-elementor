@@ -1,9 +1,11 @@
 <?php
 /**
  * Plugin Name: Better Sitemap for Elementor
- * Description: A customizable footer sitemap widget for Elementor.
- * Version: 1.03
- * Author: Pedro de Barros
+ * Description: A powerful Elementor widget that creates customizable sitemaps for your footer or any widget area. Features include custom post type support, hierarchical page display, category organization, and flexible styling options.
+ * Version: 1.0.0
+ * Author URI: https://profiles.wordpress.org/hmbashar/
+ * Author: Md Abul Bashar
+ * License: GPLv2 or later
  * Text Domain: better-sitemap-elementor
  * Domain Path: /languages
  * Requires Plugins: elementor
@@ -19,9 +21,9 @@ add_action('plugins_loaded', 'better_sitemap_elementor_load_textdomain');
 
 // Register the widget
 add_action('elementor/widgets/register', function($widgets_manager) {
-    require_once(__DIR__ . '/widgets/better-sitemap-widget.php');
+    //require_once(__DIR__ . '/widgets/better-sitemap-widget.php');
     require_once(__DIR__ . '/widgets/sitemap.php');
-    $widgets_manager->register(new \Elementor\Better_Sitemap_Widget());
+   // $widgets_manager->register(new \Elementor\Better_Sitemap_Widget());
     $widgets_manager->register(new \Elementor\Sitemap_Widget());
 });
 

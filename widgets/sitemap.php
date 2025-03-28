@@ -74,7 +74,7 @@ class Sitemap_Widget extends Widget_Base
     }
     public function get_icon()
     {
-        return 'eicon-posts-grid';
+        return 'eicon-sitemap';
     }
     public function get_categories()
     {
@@ -261,7 +261,7 @@ class Sitemap_Widget extends Widget_Base
         );
 
         $this->add_responsive_control(
-            'list_width',
+            'wrapper_width',
             [
                 'label' => __('Width', 'better-sitemap-elementor'),
                 'type' => Controls_Manager::SLIDER,
@@ -282,7 +282,7 @@ class Sitemap_Widget extends Widget_Base
                     'size' => 100,
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .better-sitemap-list' => 'width: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .better-sitemap-wrapper' => 'width: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -353,64 +353,6 @@ class Sitemap_Widget extends Widget_Base
         );
 
         $this->add_responsive_control(
-            'list_direction',
-            [
-                'label' => __('Direction', 'better-sitemap-elementor'),
-                'type' => Controls_Manager::CHOOSE,
-                'default' => 'column',
-                'options' => [
-                    'column' => [
-                        'title' => __('Column', 'better-sitemap-elementor'),
-                        'icon' => 'eicon-arrow-down',
-                    ],
-                    'row' => [
-                        'title' => __('Row', 'better-sitemap-elementor'),
-                        'icon' => 'eicon-arrow-right',
-                    ],
-                    'row-reverse' => [
-                        'title' => __('Row Reverse', 'better-sitemap-elementor'),
-                        'icon' => 'eicon-arrow-left',
-                    ],
-                    'column-reverse' => [
-                        'title' => __('Column Reverse', 'better-sitemap-elementor'),
-                        'icon' => 'eicon-arrow-up',
-                    ],
-                ],
-                'toggle' => true,
-                'selectors' => [
-                    '{{WRAPPER}} .better-sitemap-list' => 'flex-direction: {{VALUE}};',
-                ],
-            ]
-        );
-
-        $this->add_responsive_control(
-            'list_alignment',
-            [
-                'label' => __('Alignment', 'better-sitemap-elementor'),
-                'type' => Controls_Manager::CHOOSE,
-                'options' => [
-                    'flex-start' => [
-                        'title' => __('Left', 'better-sitemap-elementor'),
-                        'icon' => 'eicon-align-start-h',
-                    ],
-                    'center' => [
-                        'title' => __('Center', 'better-sitemap-elementor'),
-                        'icon' => 'eicon-align-center-h',
-                    ],
-                    'flex-end' => [
-                        'title' => __('Right', 'better-sitemap-elementor'),
-                        'icon' => 'eicon-align-end-h',
-                    ],
-                ],
-                'default' => 'flex-start',
-                'toggle' => true,
-                'selectors' => [
-                    '{{WRAPPER}} .better-sitemap-list' => 'align-items: {{VALUE}};',
-                ],
-            ]
-        );
-
-        $this->add_responsive_control(
             'list_padding',
             [
                 'label' => __('Padding', 'better-sitemap-elementor'),
@@ -431,16 +373,6 @@ class Sitemap_Widget extends Widget_Base
                 'selectors' => [
                     '{{WRAPPER}} .better-sitemap-wrapper' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
-            ]
-        );
-
-        $this->add_group_control(
-            Group_Control_Background::get_type(),
-            [
-                'name' => 'list_background',
-                'label' => __('Background', 'better-sitemap-elementor'),
-                'types' => ['classic', 'gradient'],
-                'selector' => '{{WRAPPER}} .better-sitemap-wrapper',
             ]
         );
 
@@ -473,7 +405,18 @@ class Sitemap_Widget extends Widget_Base
                 'selector' => '{{WRAPPER}} .better-sitemap-wrapper',
             ]
         );
-
+        $this->add_group_control(
+            Group_Control_Background::get_type(),
+            [
+                'name' => 'list_background',
+                'label' => __('Background', 'better-sitemap-elementor'),
+                'types' => ['classic', 'gradient'],
+                'exclude' => [
+                    'image',
+                ],
+                'selector' => '{{WRAPPER}} .better-sitemap-wrapper',
+            ]
+        );
         $this->end_controls_section();
 
 
@@ -635,7 +578,21 @@ class Sitemap_Widget extends Widget_Base
                 ],
             ]
         );
-
+        $this->add_control(
+            'icon_hover_color',
+            [
+                'label' => __('Icon Color', 'better-sitemap-elementor'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '#0066CC',
+                'selectors' => [
+                    '{{WRAPPER}} .better-sitemap-list .better-sitemap-single-item span:hover > i' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .better-sitemap-list .better-sitemap-single-item span:hover  > svg' => 'fill: {{VALUE}};',
+                ],
+                'condition' => [
+                    'show_icon' => 'yes',
+                ],
+            ]
+        );
         $this->end_controls_tab();
 
         $this->end_controls_tabs();
@@ -775,8 +732,8 @@ class Sitemap_Widget extends Widget_Base
                 'type' => Controls_Manager::COLOR,
                 'default' => '#0066CC',
                 'selectors' => [
-                    '{{WRAPPER}} .better-sitemap-child-level-1 .better-sitemap-single-item:hover i' => 'color: {{VALUE}};',
-                    '{{WRAPPER}} .better-sitemap-child-level-1 .better-sitemap-single-item:hover svg' => 'fill: {{VALUE}};',
+                    '{{WRAPPER}} .better-sitemap-child-level-1 .better-sitemap-single-item span:hover i' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .better-sitemap-child-level-1 .better-sitemap-single-item span:hover svg' => 'fill: {{VALUE}};',
                 ],
                 'condition' => [
                     'child_level_1_show_icon' => 'yes',
@@ -950,8 +907,8 @@ class Sitemap_Widget extends Widget_Base
                 'label' => __('Icon Hover Color', 'better-sitemap-elementor'),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .better-sitemap-child-level-2 .better-sitemap-single-item:hover i' => 'color: {{VALUE}};',
-                    '{{WRAPPER}} .better-sitemap-child-level-2 .better-sitemap-single-item:hover svg' => 'fill: {{VALUE}};',
+                    '{{WRAPPER}} .better-sitemap-child-level-2 .better-sitemap-single-item span:hover i' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .better-sitemap-child-level-2 .better-sitemap-single-item span:hover svg' => 'fill: {{VALUE}};',
                 ],
                 'condition' => [
                     'child_level_2_show_icon' => 'yes',
@@ -963,6 +920,246 @@ class Sitemap_Widget extends Widget_Base
 
         $this->end_controls_tabs();
 
+        $this->end_controls_section();
+
+        /*----------------------------
+         * Column Break Style
+         *----------------------------*/
+        $this->start_controls_section(
+            'column_break_style_section',
+            [
+                'label' => __('Column Break', 'better-sitemap-elementor'),
+                'tab' => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_responsive_control(
+            'columns',
+            [
+                'label' => __('Columns', 'better-sitemap-elementor'),
+                'type' => Controls_Manager::NUMBER,
+                'min' => 1,
+                'max' => 6,
+                'step' => 1,
+                'default' => 1,
+                'selectors' => [
+                    '{{WRAPPER}} .better-sitemap-wrapper' => 'grid-template-columns: repeat({{VALUE}}, 1fr);',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'column_width',
+            [
+                'label' => __('Column Width', 'better-sitemap-elementor'),
+                'type' => Controls_Manager::SLIDER,
+                'size_units' => ['px', '%'],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 1000,
+                        'step' => 1,
+                    ],
+                    '%' => [
+                        'min' => 0,
+                        'max' => 100,
+                    ],
+                ],
+                'default' => [
+                    'unit' => '%',
+                    'size' => 100,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .better-sitemap-column' => 'width: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'column_gap',
+            [
+                'label' => __('Column Gap', 'better-sitemap-elementor'),
+                'type' => Controls_Manager::SLIDER,
+                'size_units' => ['px', 'em', 'rem'],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 100,
+                        'step' => 1,
+                    ],
+                    'em' => [
+                        'min' => 0,
+                        'max' => 10,
+                        'step' => 0.1,
+                    ],
+                    'rem' => [
+                        'min' => 0,
+                        'max' => 10,
+                        'step' => 0.1,
+                    ],
+                ],
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 20,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .better-sitemap-wrapper' => 'gap: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'column_padding',
+            [
+                'label' => __('Padding', 'better-sitemap-elementor'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', 'em', 'rem', '%'],
+                'selectors' => [
+                    '{{WRAPPER}} .better-sitemap-column' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'column_margin',
+            [
+                'label' => __('Margin', 'better-sitemap-elementor'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', 'em', 'rem', '%'],
+                'selectors' => [
+                    '{{WRAPPER}} .better-sitemap-column' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+
+        $this->add_group_control(
+            Group_Control_Border::get_type(),
+            [
+                'name' => 'column_border',
+                'label' => __('Border', 'better-sitemap-elementor'),
+                'selector' => '{{WRAPPER}} .better-sitemap-column',
+            ]
+        );
+
+        $this->add_responsive_control(
+            'column_border_radius',
+            [
+                'label' => __('Border Radius', 'better-sitemap-elementor'),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em'],
+                'selectors' => [
+                    '{{WRAPPER}} .better-sitemap-column' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+        $this->add_group_control(
+            Group_Control_Background::get_type(),
+            [
+                'name' => 'column_background',
+                'label' => __('Background', 'better-sitemap-elementor'),
+                'types' => ['classic', 'gradient'],
+                'exclude' => [
+                    'image',
+                ],
+                'selector' => '{{WRAPPER}} .better-sitemap-column',
+            ]
+        );
+        // $this->add_responsive_control(
+        //     'list_direction',
+        //     [
+        //         'label' => __('Direction', 'better-sitemap-elementor'),
+        //         'type' => Controls_Manager::CHOOSE,
+        //         'default' => 'column',
+        //         'options' => [
+        //             'column' => [
+        //                 'title' => __('Column', 'better-sitemap-elementor'),
+        //                 'icon' => 'eicon-arrow-down',
+        //             ],
+        //             'row' => [
+        //                 'title' => __('Row', 'better-sitemap-elementor'),
+        //                 'icon' => 'eicon-arrow-right',
+        //             ],
+        //             'row-reverse' => [
+        //                 'title' => __('Row Reverse', 'better-sitemap-elementor'),
+        //                 'icon' => 'eicon-arrow-left',
+        //             ],
+        //             'column-reverse' => [
+        //                 'title' => __('Column Reverse', 'better-sitemap-elementor'),
+        //                 'icon' => 'eicon-arrow-up',
+        //             ],
+        //         ],
+        //         'toggle' => true,
+        //         'selectors' => [
+        //             '{{WRAPPER}} .better-sitemap-column' => 'flex-direction: {{VALUE}};',
+        //         ],
+        //     ]
+        // );
+        $this->add_responsive_control(
+            'column_justify',
+            [
+                'label' => __('Justify Content', 'better-sitemap-elementor'),
+                'type' => Controls_Manager::CHOOSE,
+                'label_block' => true,
+                'default' => 'flex-start',
+                'options' => [
+                    'flex-start' => [
+                        'title' => __('Start', 'better-sitemap-elementor'),
+                        'icon' => 'eicon-justify-start-v',
+                    ],
+                    'center' => [
+                        'title' => __('Center', 'better-sitemap-elementor'),
+                        'icon' => 'eicon-justify-center-v',
+                    ],
+                    'flex-end' => [
+                        'title' => __('End', 'better-sitemap-elementor'),
+                        'icon' => 'eicon-justify-end-v',
+                    ],
+                    'space-between' => [
+                        'title' => __('Space Between', 'better-sitemap-elementor'),
+                        'icon' => 'eicon-justify-space-between-v',
+                    ],
+                    'space-around' => [
+                        'title' => __('Space Around', 'better-sitemap-elementor'),
+                        'icon' => 'eicon-justify-space-around-v',
+                    ],
+                    'space-evenly' => [
+                        'title' => __('Space Evenly', 'better-sitemap-elementor'),
+                        'icon' => 'eicon-justify-space-evenly-v',
+                    ],
+                ],
+                'toggle' => true,
+                'selectors' => [
+                    '{{WRAPPER}} .better-sitemap-column' => 'justify-content: {{VALUE}};',
+                ],
+            ]
+        );
+        $this->add_responsive_control(
+            'list_alignment',
+            [
+                'label' => __('Alignment', 'better-sitemap-elementor'),
+                'type' => Controls_Manager::CHOOSE,
+                'options' => [
+                    'flex-start' => [
+                        'title' => __('Left', 'better-sitemap-elementor'),
+                        'icon' => 'eicon-align-start-h',
+                    ],
+                    'center' => [
+                        'title' => __('Center', 'better-sitemap-elementor'),
+                        'icon' => 'eicon-align-center-h',
+                    ],
+                    'flex-end' => [
+                        'title' => __('Right', 'better-sitemap-elementor'),
+                        'icon' => 'eicon-align-end-h',
+                    ],
+                ],
+                'default' => 'flex-start',
+                'toggle' => true,
+                'selectors' => [
+                    '{{WRAPPER}} .better-sitemap-list' => 'align-items: {{VALUE}};',
+                ],
+            ]
+        );
         $this->end_controls_section();
 
 
