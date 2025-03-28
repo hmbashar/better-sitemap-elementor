@@ -238,7 +238,7 @@ class Sitemap_Widget extends Widget_Base
                         ],
                     ],
                 ],
-                'title_field' => '{{ content_type }}: {{{ content_type == "Post" ? posts_list : pages_list }}}',
+                'title_field' => '{{ content_type }}',
             ]
         );
 
