@@ -68,3 +68,12 @@
 .better-sitemap-list a:hover {
   color: #4054b2;
 }
+.better-sitemap-child-level-1, .better-sitemap-child-level-2, .better-sitemap-child-level-3 {
+  padding-left: 20px;
+}
+.better-sitemap-wrapper {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}

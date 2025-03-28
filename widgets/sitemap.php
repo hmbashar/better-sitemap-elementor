@@ -181,6 +181,7 @@ class Sitemap_Widget extends Widget_Base
                 'options' => [
                     'Post' => __('Posts', 'better-sitemap-elementor'),
                     'Page' => __('Pages', 'better-sitemap-elementor'),
+                    'column_break' => __('Column Break', 'better-sitemap-elementor'),
                 ],
             ]
         );
@@ -220,6 +221,9 @@ class Sitemap_Widget extends Widget_Base
                     'value' => 'fas fa-circle',
                     'library' => 'fa-solid',
                 ],
+                'condition' => [
+                    'content_type!' => 'column_break',
+                ],
             ]
         );
 
@@ -238,7 +242,7 @@ class Sitemap_Widget extends Widget_Base
                         ],
                     ],
                 ],
-                'title_field' => '{{ content_type }}',
+                'title_field' => '{{{ content_type === "Post" ? "Post" : content_type === "Page" ? "Page" : "Column Break" }}}',
             ]
         );
 
@@ -692,7 +696,7 @@ class Sitemap_Widget extends Widget_Base
             'child_level_1_icon_color',
             [
                 'label' => __('Icon Color', 'better-sitemap-elementor'),
-                'type' => Controls_Manager::COLOR,                
+                'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .better-sitemap-child-level-1 i' => 'color: {{VALUE}};',
                     '{{WRAPPER}} .better-sitemap-child-level-1 svg' => 'fill: {{VALUE}};',
@@ -737,7 +741,7 @@ class Sitemap_Widget extends Widget_Base
             'child_level_1_text_color',
             [
                 'label' => __('Text Color', 'better-sitemap-elementor'),
-                'type' => Controls_Manager::COLOR,               
+                'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .better-sitemap-child-level-1 a' => 'color: {{VALUE}};',
                 ],
@@ -757,7 +761,7 @@ class Sitemap_Widget extends Widget_Base
             'child_level_1_hover_color',
             [
                 'label' => __('Text Color', 'better-sitemap-elementor'),
-                'type' => Controls_Manager::COLOR,               
+                'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .better-sitemap-child-level-1 a:hover' => 'color: {{VALUE}};',
                 ],
@@ -856,7 +860,7 @@ class Sitemap_Widget extends Widget_Base
             'child_level_2_icon_color',
             [
                 'label' => __('Icon Color', 'better-sitemap-elementor'),
-                'type' => Controls_Manager::COLOR,               
+                'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .better-sitemap-child-level-2 i' => 'color: {{VALUE}};',
                     '{{WRAPPER}} .better-sitemap-child-level-2 svg' => 'fill: {{VALUE}};',
@@ -913,7 +917,7 @@ class Sitemap_Widget extends Widget_Base
             'child_level_2_text_color',
             [
                 'label' => __('Text Color', 'better-sitemap-elementor'),
-                'type' => Controls_Manager::COLOR,               
+                'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .better-sitemap-child-level-2 a' => 'color: {{VALUE}};',
                 ],
@@ -933,7 +937,7 @@ class Sitemap_Widget extends Widget_Base
             'child_level_2_hover_color',
             [
                 'label' => __('Text Color', 'better-sitemap-elementor'),
-                'type' => Controls_Manager::COLOR,                
+                'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .better-sitemap-child-level-2 a:hover' => 'color: {{VALUE}};',
                 ],
@@ -944,7 +948,7 @@ class Sitemap_Widget extends Widget_Base
             'child_level_2_icon_hover_color',
             [
                 'label' => __('Icon Hover Color', 'better-sitemap-elementor'),
-                'type' => Controls_Manager::COLOR,                
+                'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .better-sitemap-child-level-2 .better-sitemap-single-item:hover i' => 'color: {{VALUE}};',
                     '{{WRAPPER}} .better-sitemap-child-level-2 .better-sitemap-single-item:hover svg' => 'fill: {{VALUE}};',
@@ -1052,10 +1056,14 @@ class Sitemap_Widget extends Widget_Base
         }
 
         echo '<div class="better-sitemap-wrapper">';
-        echo '<ul class="better-sitemap-list">';
+        echo '<ul class="better-sitemap-list better-sitemap-column">';
 
         foreach ($settings['sitemap_items'] as $item) {
             $post_id = null;
+            if ($item['content_type'] === 'column_break') {
+                echo '</ul><ul class="better-sitemap-list better-sitemap-column">';
+                continue;
+            }
 
             if ($item['content_type'] === 'Post' && !empty($item['posts_list'])) {
                 $post_id = $item['posts_list'];
