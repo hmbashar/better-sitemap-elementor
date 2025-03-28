@@ -6,6 +6,7 @@
  * Author: Pedro de Barros
  * Text Domain: better-sitemap-elementor
  * Domain Path: /languages
+ * Requires Plugins: elementor
  */
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
