@@ -365,7 +365,7 @@ class Sitemap_Widget extends Widget_Base
         $this->start_controls_section(
             'item_style_section',
             [
-                'label' => __('Item Style', 'better-sitemap-elementor'),
+                'label' => __('List Items', 'better-sitemap-elementor'),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -524,11 +524,173 @@ class Sitemap_Widget extends Widget_Base
 
         $this->end_controls_section();
 
+        /*--------------------------
+        Child Level 1
+        --------------------------*/
 
+        $this->start_controls_section(
+            'child_level_1_style_section',
+            [
+                'label' => __('Child Level 1', 'better-sitemap-elementor'),
+                'tab' => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->add_responsive_control(
+            'child_level_1_indent',
+            [
+                'label' => __('Indent', 'better-sitemap-elementor'),
+                'type' => Controls_Manager::SLIDER,
+                'size_units' => ['px', 'em', 'rem'],
+                'range' => [
+                    'px' => ['min' => 0, 'max' => 100, 'step' => 1],
+                    'em' => ['min' => 0, 'max' => 10, 'step' => 0.1],
+                    'rem' => ['min' => 0, 'max' => 10, 'step' => 0.1],
+                ],
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 20,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .better-sitemap-child-level-1' => 'padding-left: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Typography::get_type(),
+            [
+                'name' => 'child_level_1_typography',
+                'label' => __('Typography', 'better-sitemap-elementor'),
+                'selector' => '{{WRAPPER}} .better-sitemap-child-level-1 a',
+            ]
+        );
+
+        $this->add_control(
+            'child_level_1_show_icon',
+            [
+                'label' => __('Show Icon', 'better-sitemap-elementor'),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => __('Show', 'better-sitemap-elementor'),
+                'label_off' => __('Hide', 'better-sitemap-elementor'),
+                'return_value' => 'yes',
+                'default' => 'yes',
+            ]
+        );
+
+        $this->add_control(
+            'child_level_1_icon_color',
+            [
+                'label' => __('Icon Color', 'better-sitemap-elementor'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '#666666',
+                'selectors' => [
+                    '{{WRAPPER}} .better-sitemap-child-level-1 i' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .better-sitemap-child-level-1 svg' => 'fill: {{VALUE}};',
+                ],
+                'condition' => [
+                    'child_level_1_show_icon' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'child_level_1_icon_size',
+            [
+                'label' => __('Icon Size', 'better-sitemap-elementor'),
+                'type' => Controls_Manager::SLIDER,
+                'size_units' => ['px', 'em', 'rem'],
+                'range' => [
+                    'px' => ['min' => 0, 'max' => 100, 'step' => 1],
+                    'em' => ['min' => 0, 'max' => 10, 'step' => 0.1],
+                    'rem' => ['min' => 0, 'max' => 10, 'step' => 0.1],
+                ],
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 14,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .better-sitemap-child-level-1 i' => 'font-size: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .better-sitemap-child-level-1 svg' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
+                ],
+                'condition' => [
+                    'child_level_1_show_icon' => 'yes',
+                ],
+            ]
+        );
+
+        $this->start_controls_tabs('child_level_1_style_tabs');
+
+        $this->start_controls_tab(
+            'child_level_1_normal_tab',
+            [
+                'label' => __('Normal', 'better-sitemap-elementor'),
+            ]
+        );
+
+        $this->add_control(
+            'child_level_1_text_color',
+            [
+                'label' => __('Text Color', 'better-sitemap-elementor'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '#666666',
+                'selectors' => [
+                    '{{WRAPPER}} .better-sitemap-child-level-1 a' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->end_controls_tab();
+
+        $this->start_controls_tab(
+            'child_level_1_hover_tab',
+            [
+                'label' => __('Hover', 'better-sitemap-elementor'),
+            ]
+        );
+
+        $this->add_control(
+            'child_level_1_hover_color',
+            [
+                'label' => __('Text Color', 'better-sitemap-elementor'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '#0066CC',
+                'selectors' => [
+                    '{{WRAPPER}} .better-sitemap-child-level-1 a:hover' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'child_level_1_icon_hover_color',
+            [
+                'label' => __('Icon Hover Color', 'better-sitemap-elementor'),
+                'type' => Controls_Manager::COLOR,
+                'default' => '#0066CC',
+                'selectors' => [
+                    '{{WRAPPER}} .better-sitemap-child-level-1 .better-sitemap-single-item:hover i' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .better-sitemap-child-level-1 .better-sitemap-single-item:hover svg' => 'fill: {{VALUE}};',
+                ],
+                'condition' => [
+                    'child_level_1_show_icon' => 'yes',
+                ],
+            ]
+        );
+
+        $this->end_controls_tab();
+
+        $this->end_controls_tabs();
+
+        $this->end_controls_section();
+
+
+        /*----------------------------
+         * Child Level 2
+         *----------------------------*/
         $this->start_controls_section(
             'child_level_2_style_section',
             [
-                'label' => __('Child Level 2 Style', 'better-sitemap-elementor'),
+                'label' => __('Child Level 2', 'better-sitemap-elementor'),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -707,7 +869,7 @@ class Sitemap_Widget extends Widget_Base
 
     }
 
-    private function render_child_pages($parent_id, $level = 1, $icon = null)
+    private function render_child_pages($parent_id, $level = 1, $icon = null, $settings = [])
     {
         $child_pages = get_pages([
             'post_type' => 'page',
@@ -723,16 +885,27 @@ class Sitemap_Widget extends Widget_Base
                 echo '<li  class="better-sitemap-single-item">';
                 echo '<span>';
 
+                // 💡 Determine if the icon should be shown based on level
+                $show_icon = false;
+
+                if ($level === 1 && !empty($settings['child_level_1_show_icon']) && $settings['child_level_1_show_icon'] === 'yes') {
+                    $show_icon = true;
+                }
+
+                if ($level === 2 && !empty($settings['child_level_2_show_icon']) && $settings['child_level_2_show_icon'] === 'yes') {
+                    $show_icon = true;
+                }
                 // Inherit icon from parent repeater item
-                if (!empty($icon)) {
+                if ($show_icon && !empty($icon)) {
                     \Elementor\Icons_Manager::render_icon($icon, ['aria-hidden' => 'true']);
                 }
+    
 
                 echo '<a href="' . esc_url(get_permalink($child->ID)) . '">' . esc_html($child->post_title) . '</a>';
                 echo '</span>';
 
                 // Recursively continue with next level
-                $this->render_child_pages($child->ID, $level + 1, $icon);
+                $this->render_child_pages($child->ID, $level + 1, $icon, $settings);
 
                 echo '</li>';
             }
@@ -775,7 +948,7 @@ class Sitemap_Widget extends Widget_Base
 
                 // Start recursive children
                 if ($item['content_type'] === 'Page') {
-                    $this->render_child_pages($post_id, 1, $item['icon']);
+                    $this->render_child_pages($post_id, 1, $item['icon'], $settings);
                 }
 
                 echo '</li>';
