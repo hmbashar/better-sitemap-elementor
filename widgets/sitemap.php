@@ -1,8 +1,66 @@
 <?php
+/**
+ * Better Sitemap Elementor Widget
+ * 
+ * This widget creates a customizable sitemap for WordPress sites using Elementor.
+ * It allows users to select specific posts and pages to display in a hierarchical structure,
+ * with customizable styling options for different levels.
+ *
+ * Features:
+ * - Select individual posts and pages to include
+ * - Customizable icons for each item
+ * - Hierarchical display of pages with child pages
+ * - Extensive styling options for each level
+ * - Responsive design controls
+ * - Custom typography and colors
+ * 
+ * @package BetterSitemap
+ * @subpackage Elementor
+ * @since 1.0.0
+ * @version 1.0.0
+ * 
+ * @author Md Abul Bahar <hmbashar@gmail.com>
+ * @link @link github.com/hmbashar/better-sitemap-elementor
+ */
+
+/**
+ * Dependencies:
+ * - Elementor Plugin
+ * - WordPress Core
+ *
+ * Usage:
+ * 1. Install and activate the plugin
+ * 2. Add the widget through Elementor editor
+ * 3. Configure content and styling options
+ * 
+ * @see Elementor\Widget_Base
+ * @see get_posts()
+ * @see get_pages()
+ */
+
 namespace Elementor;
 
 if (!defined('ABSPATH'))
     exit;
+
+/**
+ * Sitemap_Widget Class
+ * 
+ * Creates a customizable sitemap widget for Elementor that displays posts and pages
+ * in a hierarchical structure with extensive styling options.
+ * 
+ * Features:
+ * - Displays selected posts and pages in a customizable list format
+ * - Supports hierarchical page structures up to 2 levels deep
+ * - Custom icons for list items with hover effects
+ * - Extensive styling controls for list items, spacing, and typography
+ * - Responsive design with customizable layouts
+ * - Different styling options for each hierarchical level
+ * 
+ * @since 1.0.0
+ * @package BetterSitemap
+ * @subpackage Elementor
+ */
 
 class Sitemap_Widget extends Widget_Base
 {
@@ -22,6 +80,19 @@ class Sitemap_Widget extends Widget_Base
     {
         return ['basic'];
     }
+
+    /**
+     * Retrieves a list of published posts for use in dropdown/select controls
+     * 
+     * This method queries all published posts and creates an associative array
+     * where post IDs are keys and post titles are values. Used to populate
+     * select controls in the widget settings.
+     *
+     * @since 1.0.0
+     * @access private
+     *
+     * @return array Associative array of post IDs and titles
+     */
     private function get_posts_list()
     {
         $posts = get_posts([
@@ -38,6 +109,18 @@ class Sitemap_Widget extends Widget_Base
         return $options;
     }
 
+    /**
+     * Retrieves a list of top-level published pages for use in dropdown/select controls
+     * 
+     * This method queries published pages with no parent (top-level pages) and creates 
+     * an associative array where page IDs are keys and page titles are values. Used to
+     * populate select controls in the widget settings.
+     *
+     * @since 1.0.0
+     * @access private
+     * 
+     * @return array Associative array of page IDs and titles
+     */
     private function get_pages_list()
     {
         $pages = get_pages([
@@ -53,8 +136,32 @@ class Sitemap_Widget extends Widget_Base
         return $options;
     }
 
+    /**
+     * Register Elementor widget controls
+     * 
+     * This method sets up all the controls/settings for the sitemap widget including:
+     * - Content controls for selecting posts/pages and icons
+     * - Style controls for the overall list container
+     * - Individual item styling controls
+     * - Child level 1 & 2 specific styling
+     * 
+     * Controls are organized into sections:
+     * - Content section: Post/page selection and icons
+     * - Style section: List container styling
+     * - Item Style section: Individual item appearance
+     * - Child Level sections: Styling for nested items
+     *
+     * @since 1.0.0
+     * @access protected
+     * @return void
+     */
     protected function register_controls()
     {
+
+        /*--------------------------------
+        Content
+        --------------------------------*/
+
         $this->start_controls_section(
             'content_section',
             [
@@ -138,6 +245,9 @@ class Sitemap_Widget extends Widget_Base
         $this->end_controls_section();
 
 
+        /*--------------------------------
+        Style
+        --------------------------------*/
         $this->start_controls_section(
             'style_section',
             [
@@ -362,6 +472,10 @@ class Sitemap_Widget extends Widget_Base
 
         $this->end_controls_section();
 
+
+        /*------------------------------------
+        Item Style
+        ------------------------------------*/
         $this->start_controls_section(
             'item_style_section',
             [
@@ -754,7 +868,7 @@ class Sitemap_Widget extends Widget_Base
             [
                 'label' => __('Icon Color', 'better-sitemap-elementor'),
                 'type' => Controls_Manager::COLOR,
-                'default' => '#666666',
+                'default' => '#000000',
                 'selectors' => [
                     '{{WRAPPER}} .better-sitemap-child-level-2 i' => 'color: {{VALUE}};',
                     '{{WRAPPER}} .better-sitemap-child-level-2 svg' => 'fill: {{VALUE}};',
@@ -816,7 +930,7 @@ class Sitemap_Widget extends Widget_Base
             [
                 'label' => __('Text Color', 'better-sitemap-elementor'),
                 'type' => Controls_Manager::COLOR,
-                'default' => '#666666',
+                'default' => '#000000',
                 'selectors' => [
                     '{{WRAPPER}} .better-sitemap-child-level-2 a' => 'color: {{VALUE}};',
                 ],
@@ -837,7 +951,7 @@ class Sitemap_Widget extends Widget_Base
             [
                 'label' => __('Text Color', 'better-sitemap-elementor'),
                 'type' => Controls_Manager::COLOR,
-                'default' => '#0066CC',
+                'default' => '#000000',
                 'selectors' => [
                     '{{WRAPPER}} .better-sitemap-child-level-2 a:hover' => 'color: {{VALUE}};',
                 ],
@@ -869,6 +983,22 @@ class Sitemap_Widget extends Widget_Base
 
     }
 
+    /**
+     * Recursively renders child pages in a hierarchical structure
+     *
+     * This method takes a parent page ID and recursively renders all its child pages
+     * in a nested unordered list structure. It supports up to 2 levels of nesting.
+     *
+     * @since 1.0.0
+     * @access private
+     *
+     * @param int $parent_id The ID of the parent page
+     * @param int $level Current nesting level (1 or 2)
+     * @param array|null $icon Icon settings from parent item
+     * @param array $settings Widget settings containing styling options
+     * 
+     * @return void Outputs the HTML for child pages
+     */
     private function render_child_pages($parent_id, $level = 1, $icon = null, $settings = [])
     {
         $child_pages = get_pages([
@@ -899,7 +1029,7 @@ class Sitemap_Widget extends Widget_Base
                 if ($show_icon && !empty($icon)) {
                     \Elementor\Icons_Manager::render_icon($icon, ['aria-hidden' => 'true']);
                 }
-    
+
 
                 echo '<a href="' . esc_url(get_permalink($child->ID)) . '">' . esc_html($child->post_title) . '</a>';
                 echo '</span>';
@@ -914,6 +1044,24 @@ class Sitemap_Widget extends Widget_Base
     }
 
 
+    /**
+     * Renders the sitemap widget output on the frontend
+     * 
+     * This method:
+     * 1. Gets the widget settings
+     * 2. Checks if there are sitemap items configured
+     * 3. Creates the main wrapper and list structure
+     * 4. Iterates through each sitemap item to:
+     *    - Get the post/page ID
+     *    - Render the icon if enabled
+     *    - Output the item link
+     *    - Recursively render child pages for Page items
+     * 5. Handles both Post and Page content types
+     *
+     * @since 1.0.0
+     * @access protected
+     * @return void Outputs the sitemap HTML structure
+     */
     protected function render()
     {
         $settings = $this->get_settings_for_display();
