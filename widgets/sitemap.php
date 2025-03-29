@@ -426,7 +426,7 @@ class Sitemap_Widget extends Widget_Base
         $this->start_controls_section(
             'item_style_section',
             [
-                'label' => __('List Items', 'better-sitemap-elementor'),
+                'label' => __('Level 1', 'better-sitemap-elementor'),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -606,7 +606,7 @@ class Sitemap_Widget extends Widget_Base
         $this->start_controls_section(
             'child_level_1_style_section',
             [
-                'label' => __('Child Level 1', 'better-sitemap-elementor'),
+                'label' => __('Level 2', 'better-sitemap-elementor'),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -754,7 +754,7 @@ class Sitemap_Widget extends Widget_Base
         $this->start_controls_section(
             'child_level_2_style_section',
             [
-                'label' => __('Child Level 2', 'better-sitemap-elementor'),
+                'label' => __('Level 3', 'better-sitemap-elementor'),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -933,20 +933,20 @@ class Sitemap_Widget extends Widget_Base
             ]
         );
 
-        $this->add_responsive_control(
-            'columns',
-            [
-                'label' => __('Columns', 'better-sitemap-elementor'),
-                'type' => Controls_Manager::NUMBER,
-                'min' => 1,
-                'max' => 6,
-                'step' => 1,
-                'default' => 1,
-                'selectors' => [
-                    '{{WRAPPER}} .better-sitemap-wrapper' => 'grid-template-columns: repeat({{VALUE}}, 1fr);',
-                ],
-            ]
-        );
+        // $this->add_responsive_control(
+        //     'columns',
+        //     [
+        //         'label' => __('Columns', 'better-sitemap-elementor'),
+        //         'type' => Controls_Manager::NUMBER,
+        //         'min' => 1,
+        //         'max' => 6,
+        //         'step' => 1,
+        //         'default' => 1,
+        //         'selectors' => [
+        //             '{{WRAPPER}} .better-sitemap-wrapper' => 'grid-template-columns: repeat({{VALUE}}, 1fr);',
+        //         ],
+        //     ]
+        // );
 
         $this->add_responsive_control(
             'column_width',
@@ -965,12 +965,8 @@ class Sitemap_Widget extends Widget_Base
                         'max' => 100,
                     ],
                 ],
-                'default' => [
-                    'unit' => '%',
-                    'size' => 100,
-                ],
                 'selectors' => [
-                    '{{WRAPPER}} .better-sitemap-column' => 'width: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .better-sitemap-column' => 'width: {{SIZE}}{{UNIT}};flex-basis: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -1096,9 +1092,9 @@ class Sitemap_Widget extends Widget_Base
         //     ]
         // );
         $this->add_responsive_control(
-            'column_justify',
+            'column_vertical_justify',
             [
-                'label' => __('Justify Content', 'better-sitemap-elementor'),
+                'label' => __('Columns Vertically Justify', 'better-sitemap-elementor'),
                 'type' => Controls_Manager::CHOOSE,
                 'label_block' => true,
                 'default' => 'flex-start',
@@ -1135,22 +1131,62 @@ class Sitemap_Widget extends Widget_Base
             ]
         );
         $this->add_responsive_control(
-            'list_alignment',
+            'column_justify',
             [
-                'label' => __('Alignment', 'better-sitemap-elementor'),
+                'label' => __('Justify Columns', 'better-sitemap-elementor'),
+                'type' => Controls_Manager::CHOOSE,
+                'label_block' => true,
+                'default' => 'flex-start',
+                'options' => [
+                    'flex-start' => [
+                        'title' => __('Start', 'better-sitemap-elementor'),
+                        'icon' => 'eicon-justify-start-h',
+                    ],
+                    'center' => [
+                        'title' => __('Center', 'better-sitemap-elementor'),
+                        'icon' => 'eicon-justify-center-h',
+                    ],
+                    'flex-end' => [
+                        'title' => __('End', 'better-sitemap-elementor'),
+                        'icon' => 'eicon-justify-end-h',
+                    ],
+                    'space-between' => [
+                        'title' => __('Space Between', 'better-sitemap-elementor'),
+                        'icon' => 'eicon-justify-space-between-h',
+                    ],
+                    'space-around' => [
+                        'title' => __('Space Around', 'better-sitemap-elementor'),
+                        'icon' => 'eicon-justify-space-around-h',
+                    ],
+                    'space-evenly' => [
+                        'title' => __('Space Evenly', 'better-sitemap-elementor'),
+                        'icon' => 'eicon-justify-space-evenly-h',
+                    ],
+                ],
+                'toggle' => true,
+                'selectors' => [
+                    '{{WRAPPER}} .better-sitemap-wrapper' => 'justify-content: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'list_text_alignment',
+            [
+                'label' => __('Text Aligment', 'better-sitemap-elementor'),
                 'type' => Controls_Manager::CHOOSE,
                 'options' => [
                     'flex-start' => [
                         'title' => __('Left', 'better-sitemap-elementor'),
-                        'icon' => 'eicon-align-start-h',
+                        'icon' => 'eicon-text-align-left',
                     ],
                     'center' => [
                         'title' => __('Center', 'better-sitemap-elementor'),
-                        'icon' => 'eicon-align-center-h',
+                        'icon' => 'eicon-text-align-center',
                     ],
                     'flex-end' => [
                         'title' => __('Right', 'better-sitemap-elementor'),
-                        'icon' => 'eicon-align-end-h',
+                        'icon' => 'eicon-text-align-right',
                     ],
                 ],
                 'default' => 'flex-start',

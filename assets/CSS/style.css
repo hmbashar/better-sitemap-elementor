@@ -73,7 +73,8 @@
 }
 .better-sitemap-wrapper {
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  /* display: grid;
+  grid-template-columns: repeat(2, 1fr); */
+  display: flex;
   gap: 20px;
 }
