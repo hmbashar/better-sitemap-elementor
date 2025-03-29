@@ -33,6 +33,8 @@
 .better-sitemap-list svg {
   width: 10px;
   height: 10px;
+  flex-shrink: 0;
+  display: inline-block;
 }
 .better-sitemap-list,
 [class^="better-sitemap-child-level-"] {
@@ -64,11 +66,14 @@
 
 .better-sitemap-list a {
   color: #000;
+  max-width: 90%;
 }
 .better-sitemap-list a:hover {
   color: #4054b2;
 }
-.better-sitemap-child-level-1, .better-sitemap-child-level-2, .better-sitemap-child-level-3 {
+.better-sitemap-child-level-1,
+.better-sitemap-child-level-2,
+.better-sitemap-child-level-3 {
   padding-left: 20px;
 }
 .better-sitemap-wrapper {
@@ -77,4 +82,10 @@
   grid-template-columns: repeat(2, 1fr); */
   display: flex;
   gap: 20px;
+}
+
+@media screen and (max-width: 600px) {
+  .better-sitemap-wrapper {
+    flex-direction: column;
+  }
 }

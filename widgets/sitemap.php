@@ -1170,32 +1170,32 @@ class Sitemap_Widget extends Widget_Base
             ]
         );
 
-        $this->add_responsive_control(
-            'list_text_alignment',
-            [
-                'label' => __('Text Aligment', 'better-sitemap-elementor'),
-                'type' => Controls_Manager::CHOOSE,
-                'options' => [
-                    'flex-start' => [
-                        'title' => __('Left', 'better-sitemap-elementor'),
-                        'icon' => 'eicon-text-align-left',
-                    ],
-                    'center' => [
-                        'title' => __('Center', 'better-sitemap-elementor'),
-                        'icon' => 'eicon-text-align-center',
-                    ],
-                    'flex-end' => [
-                        'title' => __('Right', 'better-sitemap-elementor'),
-                        'icon' => 'eicon-text-align-right',
-                    ],
-                ],
-                'default' => 'flex-start',
-                'toggle' => true,
-                'selectors' => [
-                    '{{WRAPPER}} .better-sitemap-list' => 'align-items: {{VALUE}};',
-                ],
-            ]
-        );
+        // $this->add_responsive_control(
+        //     'list_text_alignment',
+        //     [
+        //         'label' => __('Text Aligment', 'better-sitemap-elementor'),
+        //         'type' => Controls_Manager::CHOOSE,
+        //         'options' => [
+        //             'flex-start' => [
+        //                 'title' => __('Left', 'better-sitemap-elementor'),
+        //                 'icon' => 'eicon-text-align-left',
+        //             ],
+        //             'center' => [
+        //                 'title' => __('Center', 'better-sitemap-elementor'),
+        //                 'icon' => 'eicon-text-align-center',
+        //             ],
+        //             'flex-end' => [
+        //                 'title' => __('Right', 'better-sitemap-elementor'),
+        //                 'icon' => 'eicon-text-align-right',
+        //             ],
+        //         ],
+        //         'default' => 'flex-start',
+        //         'toggle' => true,
+        //         'selectors' => [
+        //             '{{WRAPPER}} .better-sitemap-list' => 'align-items: {{VALUE}};',
+        //         ],
+        //     ]
+        // );
         $this->end_controls_section();
 
 
