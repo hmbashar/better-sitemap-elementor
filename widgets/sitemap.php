@@ -933,21 +933,6 @@ class Sitemap_Widget extends Widget_Base
             ]
         );
 
-        // $this->add_responsive_control(
-        //     'columns',
-        //     [
-        //         'label' => __('Columns', 'better-sitemap-elementor'),
-        //         'type' => Controls_Manager::NUMBER,
-        //         'min' => 1,
-        //         'max' => 6,
-        //         'step' => 1,
-        //         'default' => 1,
-        //         'selectors' => [
-        //             '{{WRAPPER}} .better-sitemap-wrapper' => 'grid-template-columns: repeat({{VALUE}}, 1fr);',
-        //         ],
-        //     ]
-        // );
-
         $this->add_responsive_control(
             'column_width',
             [
@@ -1061,36 +1046,7 @@ class Sitemap_Widget extends Widget_Base
                 'selector' => '{{WRAPPER}} .better-sitemap-column',
             ]
         );
-        // $this->add_responsive_control(
-        //     'list_direction',
-        //     [
-        //         'label' => __('Direction', 'better-sitemap-elementor'),
-        //         'type' => Controls_Manager::CHOOSE,
-        //         'default' => 'column',
-        //         'options' => [
-        //             'column' => [
-        //                 'title' => __('Column', 'better-sitemap-elementor'),
-        //                 'icon' => 'eicon-arrow-down',
-        //             ],
-        //             'row' => [
-        //                 'title' => __('Row', 'better-sitemap-elementor'),
-        //                 'icon' => 'eicon-arrow-right',
-        //             ],
-        //             'row-reverse' => [
-        //                 'title' => __('Row Reverse', 'better-sitemap-elementor'),
-        //                 'icon' => 'eicon-arrow-left',
-        //             ],
-        //             'column-reverse' => [
-        //                 'title' => __('Column Reverse', 'better-sitemap-elementor'),
-        //                 'icon' => 'eicon-arrow-up',
-        //             ],
-        //         ],
-        //         'toggle' => true,
-        //         'selectors' => [
-        //             '{{WRAPPER}} .better-sitemap-column' => 'flex-direction: {{VALUE}};',
-        //         ],
-        //     ]
-        // );
+
         $this->add_responsive_control(
             'column_vertical_justify',
             [
@@ -1170,32 +1126,6 @@ class Sitemap_Widget extends Widget_Base
             ]
         );
 
-        // $this->add_responsive_control(
-        //     'list_text_alignment',
-        //     [
-        //         'label' => __('Text Aligment', 'better-sitemap-elementor'),
-        //         'type' => Controls_Manager::CHOOSE,
-        //         'options' => [
-        //             'flex-start' => [
-        //                 'title' => __('Left', 'better-sitemap-elementor'),
-        //                 'icon' => 'eicon-text-align-left',
-        //             ],
-        //             'center' => [
-        //                 'title' => __('Center', 'better-sitemap-elementor'),
-        //                 'icon' => 'eicon-text-align-center',
-        //             ],
-        //             'flex-end' => [
-        //                 'title' => __('Right', 'better-sitemap-elementor'),
-        //                 'icon' => 'eicon-text-align-right',
-        //             ],
-        //         ],
-        //         'default' => 'flex-start',
-        //         'toggle' => true,
-        //         'selectors' => [
-        //             '{{WRAPPER}} .better-sitemap-list' => 'align-items: {{VALUE}};',
-        //         ],
-        //     ]
-        // );
         $this->end_controls_section();
 
 
