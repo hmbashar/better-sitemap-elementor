@@ -53,11 +53,6 @@ Yes, the widget allows you to select and display any post type available on your
 
 Yes, the sitemap is fully responsive and includes customization options for different screen sizes.
 
-== Screenshots ==
-
-1. Sitemap widget in action
-2. Widget settings panel
-3. Responsive view
 
 == Changelog ==
 
