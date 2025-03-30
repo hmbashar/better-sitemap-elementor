@@ -413,10 +413,10 @@ class Sitemap_Widget extends Widget_Base
                 'types' => ['classic', 'gradient'],
                 'exclude' => [
                     'image',
-                ],
+                ], 
                 'selector' => '{{WRAPPER}} .better-sitemap-wrapper',
             ]
-        );
+        ); // phpcs:ignore WordPressVIPMinimum.Performance.WPQueryParams.PostNotIn_exclude
         $this->end_controls_section();
 
 

@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "dir-archiver": "^2.1.0"
+  },
+  "scripts": {
+    "clean": "find . -name '.DS_Store' -type f -delete",
+    "bundle": "npm run clean && dir-archiver --src . --dest ../better-sitemap-elementor.zip --exclude '**/.DS_Store' .git .distignore .gitattributes .github .gitignore .wordpress-org README.md composer.lock node_modules package-lock.json package.json phpcs.xml.dist"
+  }
+}

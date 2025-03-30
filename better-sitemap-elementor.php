@@ -13,35 +13,46 @@
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
+// Check if Elementor is installed and activated
+function better_sitemap_elementor_is_elementor_active() {
+    return did_action('elementor/loaded');
+}
+
+// Display admin notice if Elementor is not active
+function better_sitemap_elementor_admin_notice() {
+    if (!better_sitemap_elementor_is_elementor_active()) {
+        $message = sprintf(
+            esc_html__('Better Sitemap for Elementor requires %1$sElementor%2$s plugin to be active. Please install and activate Elementor first.', 'better-sitemap-elementor'),
+            '<strong>',
+            '</strong>'
+        );
+        echo '<div class="notice notice-warning is-dismissible"><p>' . $message . '</p></div>';
+    }
+}
+add_action('admin_notices', 'better_sitemap_elementor_admin_notice');
+
 // Load plugin textdomain
 function better_sitemap_elementor_load_textdomain() {
     load_plugin_textdomain('better-sitemap-elementor', false, dirname(plugin_basename(__FILE__)) . '/languages');
 }
 add_action('plugins_loaded', 'better_sitemap_elementor_load_textdomain');
 
-// Register the widget
-add_action('elementor/widgets/register', function($widgets_manager) {
-    require_once(__DIR__ . '/widgets/sitemap.php');
-    $widgets_manager->register(new \Elementor\Sitemap_Widget());
-});
+// Register the widget only if Elementor is active
+function better_sitemap_elementor_register_widget($widgets_manager) {
+    if (better_sitemap_elementor_is_elementor_active()) {
+        require_once(__DIR__ . '/widgets/sitemap.php');
+        $widgets_manager->register(new \Elementor\Sitemap_Widget());
+    }
+}
+add_action('elementor/widgets/register', 'better_sitemap_elementor_register_widget');
 
 // Enqueue frontend styles
 function enqueue_better_sitemap_styles() {
     wp_enqueue_style(
         'better-sitemap-style',
-        plugin_dir_url(__FILE__) . 'assets/css/style.css'
+        plugin_dir_url(__FILE__) . 'assets/css/style.css', 
+        array(),
+        '1.0.0'
     );
 }
 add_action('wp_enqueue_scripts', 'enqueue_better_sitemap_styles');
-
-// Load admin.js script
-function enqueue_better_sitemap_admin_scripts() {
-    wp_enqueue_script(
-        'better-sitemap-admin',
-        plugin_dir_url( __FILE__ ) . 'assets/js/admin.js',
-        array( 'jquery' ),
-        '1.0.2',
-        true
-    );
-}
-add_action( 'elementor/editor/after_enqueue_scripts', 'enqueue_better_sitemap_admin_scripts' );
