@@ -38,11 +38,18 @@
  * @see get_pages()
  */
 
-namespace Elementor;
+namespace BETTER_SITEMAP;
 
 if (!defined('ABSPATH'))
     exit;
 
+use Elementor\Widget_Base;
+use Elementor\Controls_Manager;
+use Elementor\Group_Control_Border;
+use Elementor\Group_Control_Box_Shadow;
+use Elementor\Group_Control_Background;
+use Elementor\Group_Control_Typography;
+use Elementor\Repeater;
 /**
  * Sitemap_Widget Class
  * 
@@ -70,7 +77,7 @@ class Sitemap_Widget extends Widget_Base
     }
     public function get_title()
     {
-        return __('Better Sitemap', 'better-sitemap-elementor');
+        return __('Better Sitemap', 'better-sitemap-for-elementor');
     }
     public function get_icon()
     {
@@ -165,7 +172,7 @@ class Sitemap_Widget extends Widget_Base
         $this->start_controls_section(
             'content_section',
             [
-                'label' => __('Content', 'better-sitemap-elementor'),
+                'label' => __('Content', 'better-sitemap-for-elementor'),
                 'tab' => Controls_Manager::TAB_CONTENT,
             ]
         );
@@ -175,13 +182,13 @@ class Sitemap_Widget extends Widget_Base
         $repeater->add_control(
             'content_type',
             [
-                'label' => __('Content Type', 'better-sitemap-elementor'),
+                'label' => __('Content Type', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'Post',
                 'options' => [
-                    'Post' => __('Posts', 'better-sitemap-elementor'),
-                    'Page' => __('Pages', 'better-sitemap-elementor'),
-                    'column_break' => __('Column Break', 'better-sitemap-elementor'),
+                    'Post' => __('Posts', 'better-sitemap-for-elementor'),
+                    'Page' => __('Pages', 'better-sitemap-for-elementor'),
+                    'column_break' => __('Column Break', 'better-sitemap-for-elementor'),
                 ],
             ]
         );
@@ -189,7 +196,7 @@ class Sitemap_Widget extends Widget_Base
         $repeater->add_control(
             'posts_list',
             [
-                'label' => __('Select Posts', 'better-sitemap-elementor'),
+                'label' => __('Select Posts', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::SELECT2,
                 'options' => $this->get_posts_list(),
                 'multiple' => false,
@@ -202,7 +209,7 @@ class Sitemap_Widget extends Widget_Base
         $repeater->add_control(
             'pages_list',
             [
-                'label' => __('Select Pages', 'better-sitemap-elementor'),
+                'label' => __('Select Pages', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::SELECT2,
                 'options' => $this->get_pages_list(),
                 'multiple' => false,
@@ -215,7 +222,7 @@ class Sitemap_Widget extends Widget_Base
         $repeater->add_control(
             'icon',
             [
-                'label' => __('Icon', 'better-sitemap-elementor'),
+                'label' => __('Icon', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::ICONS,
                 'default' => [
                     'value' => 'fas fa-circle',
@@ -230,7 +237,7 @@ class Sitemap_Widget extends Widget_Base
         $this->add_control(
             'sitemap_items',
             [
-                'label' => __('Sitemap Items', 'better-sitemap-elementor'),
+                'label' => __('Sitemap Items', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::REPEATER,
                 'fields' => $repeater->get_controls(),
                 'default' => [
@@ -255,7 +262,7 @@ class Sitemap_Widget extends Widget_Base
         $this->start_controls_section(
             'style_section',
             [
-                'label' => __('Style', 'better-sitemap-elementor'),
+                'label' => __('Style', 'better-sitemap-for-elementor'),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -263,7 +270,7 @@ class Sitemap_Widget extends Widget_Base
         $this->add_responsive_control(
             'wrapper_width',
             [
-                'label' => __('Width', 'better-sitemap-elementor'),
+                'label' => __('Width', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => ['px', '%'],
                 'range' => [
@@ -289,7 +296,7 @@ class Sitemap_Widget extends Widget_Base
         $this->add_responsive_control(
             'list_spacing',
             [
-                'label' => __('List Gap', 'better-sitemap-elementor'),
+                'label' => __('List Gap', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => ['px', 'em', 'rem'],
                 'range' => [
@@ -322,7 +329,7 @@ class Sitemap_Widget extends Widget_Base
         $this->add_responsive_control(
             'level_gap',
             [
-                'label' => __('Level Gap', 'better-sitemap-elementor'),
+                'label' => __('Level Gap', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => ['px', 'em', 'rem'],
                 'range' => [
@@ -355,7 +362,7 @@ class Sitemap_Widget extends Widget_Base
         $this->add_responsive_control(
             'list_padding',
             [
-                'label' => __('Padding', 'better-sitemap-elementor'),
+                'label' => __('Padding', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', 'em', 'rem', '%'],
                 'selectors' => [
@@ -367,7 +374,7 @@ class Sitemap_Widget extends Widget_Base
         $this->add_responsive_control(
             'list_margin',
             [
-                'label' => __('Margin', 'better-sitemap-elementor'),
+                'label' => __('Margin', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', 'em', 'rem', '%'],
                 'selectors' => [
@@ -380,7 +387,7 @@ class Sitemap_Widget extends Widget_Base
             Group_Control_Border::get_type(),
             [
                 'name' => 'list_border',
-                'label' => __('Border', 'better-sitemap-elementor'),
+                'label' => __('Border', 'better-sitemap-for-elementor'),
                 'selector' => '{{WRAPPER}} .better-sitemap-wrapper',
             ]
         );
@@ -388,7 +395,7 @@ class Sitemap_Widget extends Widget_Base
         $this->add_responsive_control(
             'list_border_radius',
             [
-                'label' => __('Border Radius', 'better-sitemap-elementor'),
+                'label' => __('Border Radius', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'em'],
                 'selectors' => [
@@ -401,7 +408,7 @@ class Sitemap_Widget extends Widget_Base
             Group_Control_Box_Shadow::get_type(),
             [
                 'name' => 'list_box_shadow',
-                'label' => __('Box Shadow', 'better-sitemap-elementor'),
+                'label' => __('Box Shadow', 'better-sitemap-for-elementor'),
                 'selector' => '{{WRAPPER}} .better-sitemap-wrapper',
             ]
         );
@@ -409,7 +416,7 @@ class Sitemap_Widget extends Widget_Base
             Group_Control_Background::get_type(),
             [
                 'name' => 'list_background',
-                'label' => __('Background', 'better-sitemap-elementor'),
+                'label' => __('Background', 'better-sitemap-for-elementor'),
                 'types' => ['classic', 'gradient'],
                 'exclude' => [
                     'image',
@@ -426,7 +433,7 @@ class Sitemap_Widget extends Widget_Base
         $this->start_controls_section(
             'item_style_section',
             [
-                'label' => __('Level 1', 'better-sitemap-elementor'),
+                'label' => __('Level 1', 'better-sitemap-for-elementor'),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -434,10 +441,10 @@ class Sitemap_Widget extends Widget_Base
         $this->add_control(
             'show_icon',
             [
-                'label' => __('Show Icon', 'better-sitemap-elementor'),
+                'label' => __('Show Icon', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::SWITCHER,
-                'label_on' => __('Show', 'better-sitemap-elementor'),
-                'label_off' => __('Hide', 'better-sitemap-elementor'),
+                'label_on' => __('Show', 'better-sitemap-for-elementor'),
+                'label_off' => __('Hide', 'better-sitemap-for-elementor'),
                 'return_value' => 'yes',
                 'default' => 'yes',
             ]
@@ -446,7 +453,7 @@ class Sitemap_Widget extends Widget_Base
         $this->add_control(
             'icon_color',
             [
-                'label' => __('Icon Color', 'better-sitemap-elementor'),
+                'label' => __('Icon Color', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::COLOR,
                 'default' => '#000000',
                 'selectors' => [
@@ -462,7 +469,7 @@ class Sitemap_Widget extends Widget_Base
         $this->add_responsive_control(
             'icon_size',
             [
-                'label' => __('Icon Size', 'better-sitemap-elementor'),
+                'label' => __('Icon Size', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => ['px', 'em', 'rem'],
                 'range' => [
@@ -499,7 +506,7 @@ class Sitemap_Widget extends Widget_Base
         $this->add_responsive_control(
             'icon_gap',
             [
-                'label' => __('Icon Spacing', 'better-sitemap-elementor'),
+                'label' => __('Icon Spacing', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => ['px', 'em', 'rem'],
                 'range' => [
@@ -532,7 +539,7 @@ class Sitemap_Widget extends Widget_Base
             Group_Control_Typography::get_type(),
             [
                 'name' => 'text_typography',
-                'label' => __('Typography', 'better-sitemap-elementor'),
+                'label' => __('Typography', 'better-sitemap-for-elementor'),
                 'selector' => '{{WRAPPER}} .better-sitemap-list a',
             ]
         );
@@ -542,14 +549,14 @@ class Sitemap_Widget extends Widget_Base
         $this->start_controls_tab(
             'text_normal_tab',
             [
-                'label' => __('Normal', 'better-sitemap-elementor'),
+                'label' => __('Normal', 'better-sitemap-for-elementor'),
             ]
         );
 
         $this->add_control(
             'text_color',
             [
-                'label' => __('Text Color', 'better-sitemap-elementor'),
+                'label' => __('Text Color', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::COLOR,
                 'default' => '#000000',
                 'selectors' => [
@@ -563,14 +570,14 @@ class Sitemap_Widget extends Widget_Base
         $this->start_controls_tab(
             'text_hover_tab',
             [
-                'label' => __('Hover', 'better-sitemap-elementor'),
+                'label' => __('Hover', 'better-sitemap-for-elementor'),
             ]
         );
 
         $this->add_control(
             'text_hover_color',
             [
-                'label' => __('Text Color', 'better-sitemap-elementor'),
+                'label' => __('Text Color', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::COLOR,
                 'default' => '#0066CC',
                 'selectors' => [
@@ -581,7 +588,7 @@ class Sitemap_Widget extends Widget_Base
         $this->add_control(
             'icon_hover_color',
             [
-                'label' => __('Icon Color', 'better-sitemap-elementor'),
+                'label' => __('Icon Color', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::COLOR,
                 'default' => '#0066CC',
                 'selectors' => [
@@ -606,7 +613,7 @@ class Sitemap_Widget extends Widget_Base
         $this->start_controls_section(
             'child_level_1_style_section',
             [
-                'label' => __('Level 2', 'better-sitemap-elementor'),
+                'label' => __('Level 2', 'better-sitemap-for-elementor'),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -614,7 +621,7 @@ class Sitemap_Widget extends Widget_Base
         $this->add_responsive_control(
             'child_level_1_indent',
             [
-                'label' => __('Indent', 'better-sitemap-elementor'),
+                'label' => __('Indent', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => ['px', 'em', 'rem'],
                 'range' => [
@@ -632,7 +639,7 @@ class Sitemap_Widget extends Widget_Base
             Group_Control_Typography::get_type(),
             [
                 'name' => 'child_level_1_typography',
-                'label' => __('Typography', 'better-sitemap-elementor'),
+                'label' => __('Typography', 'better-sitemap-for-elementor'),
                 'selector' => '{{WRAPPER}} .better-sitemap-child-level-1 a',
             ]
         );
@@ -640,10 +647,10 @@ class Sitemap_Widget extends Widget_Base
         $this->add_control(
             'child_level_1_show_icon',
             [
-                'label' => __('Show Icon', 'better-sitemap-elementor'),
+                'label' => __('Show Icon', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::SWITCHER,
-                'label_on' => __('Show', 'better-sitemap-elementor'),
-                'label_off' => __('Hide', 'better-sitemap-elementor'),
+                'label_on' => __('Show', 'better-sitemap-for-elementor'),
+                'label_off' => __('Hide', 'better-sitemap-for-elementor'),
                 'return_value' => 'yes',
                 'default' => 'yes',
             ]
@@ -652,7 +659,7 @@ class Sitemap_Widget extends Widget_Base
         $this->add_control(
             'child_level_1_icon_color',
             [
-                'label' => __('Icon Color', 'better-sitemap-elementor'),
+                'label' => __('Icon Color', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .better-sitemap-child-level-1 i' => 'color: {{VALUE}};',
@@ -667,7 +674,7 @@ class Sitemap_Widget extends Widget_Base
         $this->add_responsive_control(
             'child_level_1_icon_size',
             [
-                'label' => __('Icon Size', 'better-sitemap-elementor'),
+                'label' => __('Icon Size', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => ['px', 'em', 'rem'],
                 'range' => [
@@ -690,14 +697,14 @@ class Sitemap_Widget extends Widget_Base
         $this->start_controls_tab(
             'child_level_1_normal_tab',
             [
-                'label' => __('Normal', 'better-sitemap-elementor'),
+                'label' => __('Normal', 'better-sitemap-for-elementor'),
             ]
         );
 
         $this->add_control(
             'child_level_1_text_color',
             [
-                'label' => __('Text Color', 'better-sitemap-elementor'),
+                'label' => __('Text Color', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .better-sitemap-child-level-1 a' => 'color: {{VALUE}};',
@@ -710,14 +717,14 @@ class Sitemap_Widget extends Widget_Base
         $this->start_controls_tab(
             'child_level_1_hover_tab',
             [
-                'label' => __('Hover', 'better-sitemap-elementor'),
+                'label' => __('Hover', 'better-sitemap-for-elementor'),
             ]
         );
 
         $this->add_control(
             'child_level_1_hover_color',
             [
-                'label' => __('Text Color', 'better-sitemap-elementor'),
+                'label' => __('Text Color', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .better-sitemap-child-level-1 a:hover' => 'color: {{VALUE}};',
@@ -728,7 +735,7 @@ class Sitemap_Widget extends Widget_Base
         $this->add_control(
             'child_level_1_icon_hover_color',
             [
-                'label' => __('Icon Hover Color', 'better-sitemap-elementor'),
+                'label' => __('Icon Hover Color', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::COLOR,
                 'default' => '#0066CC',
                 'selectors' => [
@@ -754,7 +761,7 @@ class Sitemap_Widget extends Widget_Base
         $this->start_controls_section(
             'child_level_2_style_section',
             [
-                'label' => __('Level 3', 'better-sitemap-elementor'),
+                'label' => __('Level 3', 'better-sitemap-for-elementor'),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -762,7 +769,7 @@ class Sitemap_Widget extends Widget_Base
         $this->add_responsive_control(
             'child_level_2_indent',
             [
-                'label' => __('Indent', 'better-sitemap-elementor'),
+                'label' => __('Indent', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => ['px', 'em', 'rem'],
                 'range' => [
@@ -796,7 +803,7 @@ class Sitemap_Widget extends Widget_Base
             Group_Control_Typography::get_type(),
             [
                 'name' => 'child_level_2_typography',
-                'label' => __('Typography', 'better-sitemap-elementor'),
+                'label' => __('Typography', 'better-sitemap-for-elementor'),
                 'selector' => '{{WRAPPER}} .better-sitemap-child-level-2 a',
             ]
         );
@@ -804,10 +811,10 @@ class Sitemap_Widget extends Widget_Base
         $this->add_control(
             'child_level_2_show_icon',
             [
-                'label' => __('Show Icon', 'better-sitemap-elementor'),
+                'label' => __('Show Icon', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::SWITCHER,
-                'label_on' => __('Show', 'better-sitemap-elementor'),
-                'label_off' => __('Hide', 'better-sitemap-elementor'),
+                'label_on' => __('Show', 'better-sitemap-for-elementor'),
+                'label_off' => __('Hide', 'better-sitemap-for-elementor'),
                 'return_value' => 'yes',
                 'default' => 'yes',
             ]
@@ -816,7 +823,7 @@ class Sitemap_Widget extends Widget_Base
         $this->add_control(
             'child_level_2_icon_color',
             [
-                'label' => __('Icon Color', 'better-sitemap-elementor'),
+                'label' => __('Icon Color', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .better-sitemap-child-level-2 i' => 'color: {{VALUE}};',
@@ -831,7 +838,7 @@ class Sitemap_Widget extends Widget_Base
         $this->add_responsive_control(
             'child_level_2_icon_size',
             [
-                'label' => __('Icon Size', 'better-sitemap-elementor'),
+                'label' => __('Icon Size', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => ['px', 'em', 'rem'],
                 'range' => [
@@ -866,14 +873,14 @@ class Sitemap_Widget extends Widget_Base
         $this->start_controls_tab(
             'child_level_2_normal_tab',
             [
-                'label' => __('Normal', 'better-sitemap-elementor'),
+                'label' => __('Normal', 'better-sitemap-for-elementor'),
             ]
         );
 
         $this->add_control(
             'child_level_2_text_color',
             [
-                'label' => __('Text Color', 'better-sitemap-elementor'),
+                'label' => __('Text Color', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .better-sitemap-child-level-2 a' => 'color: {{VALUE}};',
@@ -886,14 +893,14 @@ class Sitemap_Widget extends Widget_Base
         $this->start_controls_tab(
             'child_level_2_hover_tab',
             [
-                'label' => __('Hover', 'better-sitemap-elementor'),
+                'label' => __('Hover', 'better-sitemap-for-elementor'),
             ]
         );
 
         $this->add_control(
             'child_level_2_hover_color',
             [
-                'label' => __('Text Color', 'better-sitemap-elementor'),
+                'label' => __('Text Color', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .better-sitemap-child-level-2 a:hover' => 'color: {{VALUE}};',
@@ -904,7 +911,7 @@ class Sitemap_Widget extends Widget_Base
         $this->add_control(
             'child_level_2_icon_hover_color',
             [
-                'label' => __('Icon Hover Color', 'better-sitemap-elementor'),
+                'label' => __('Icon Hover Color', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .better-sitemap-child-level-2 .better-sitemap-single-item span:hover i' => 'color: {{VALUE}};',
@@ -928,7 +935,7 @@ class Sitemap_Widget extends Widget_Base
         $this->start_controls_section(
             'column_break_style_section',
             [
-                'label' => __('Column Break', 'better-sitemap-elementor'),
+                'label' => __('Column Break', 'better-sitemap-for-elementor'),
                 'tab' => Controls_Manager::TAB_STYLE,
             ]
         );
@@ -936,7 +943,7 @@ class Sitemap_Widget extends Widget_Base
         $this->add_responsive_control(
             'column_width',
             [
-                'label' => __('Column Width', 'better-sitemap-elementor'),
+                'label' => __('Column Width', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => ['px', '%'],
                 'range' => [
@@ -959,7 +966,7 @@ class Sitemap_Widget extends Widget_Base
         $this->add_responsive_control(
             'column_gap',
             [
-                'label' => __('Column Gap', 'better-sitemap-elementor'),
+                'label' => __('Column Gap', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => ['px', 'em', 'rem'],
                 'range' => [
@@ -992,7 +999,7 @@ class Sitemap_Widget extends Widget_Base
         $this->add_responsive_control(
             'column_padding',
             [
-                'label' => __('Padding', 'better-sitemap-elementor'),
+                'label' => __('Padding', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', 'em', 'rem', '%'],
                 'selectors' => [
@@ -1004,7 +1011,7 @@ class Sitemap_Widget extends Widget_Base
         $this->add_responsive_control(
             'column_margin',
             [
-                'label' => __('Margin', 'better-sitemap-elementor'),
+                'label' => __('Margin', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', 'em', 'rem', '%'],
                 'selectors' => [
@@ -1018,7 +1025,7 @@ class Sitemap_Widget extends Widget_Base
             Group_Control_Border::get_type(),
             [
                 'name' => 'column_border',
-                'label' => __('Border', 'better-sitemap-elementor'),
+                'label' => __('Border', 'better-sitemap-for-elementor'),
                 'selector' => '{{WRAPPER}} .better-sitemap-column',
             ]
         );
@@ -1026,7 +1033,7 @@ class Sitemap_Widget extends Widget_Base
         $this->add_responsive_control(
             'column_border_radius',
             [
-                'label' => __('Border Radius', 'better-sitemap-elementor'),
+                'label' => __('Border Radius', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => ['px', '%', 'em'],
                 'selectors' => [
@@ -1038,7 +1045,7 @@ class Sitemap_Widget extends Widget_Base
             Group_Control_Background::get_type(),
             [
                 'name' => 'column_background',
-                'label' => __('Background', 'better-sitemap-elementor'),
+                'label' => __('Background', 'better-sitemap-for-elementor'),
                 'types' => ['classic', 'gradient'],
                 'exclude' => [
                     'image',
@@ -1050,33 +1057,33 @@ class Sitemap_Widget extends Widget_Base
         $this->add_responsive_control(
             'column_vertical_justify',
             [
-                'label' => __('Columns Vertically Justify', 'better-sitemap-elementor'),
+                'label' => __('Columns Vertically Justify', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::CHOOSE,
                 'label_block' => true,
                 'default' => 'flex-start',
                 'options' => [
                     'flex-start' => [
-                        'title' => __('Start', 'better-sitemap-elementor'),
+                        'title' => __('Start', 'better-sitemap-for-elementor'),
                         'icon' => 'eicon-justify-start-v',
                     ],
                     'center' => [
-                        'title' => __('Center', 'better-sitemap-elementor'),
+                        'title' => __('Center', 'better-sitemap-for-elementor'),
                         'icon' => 'eicon-justify-center-v',
                     ],
                     'flex-end' => [
-                        'title' => __('End', 'better-sitemap-elementor'),
+                        'title' => __('End', 'better-sitemap-for-elementor'),
                         'icon' => 'eicon-justify-end-v',
                     ],
                     'space-between' => [
-                        'title' => __('Space Between', 'better-sitemap-elementor'),
+                        'title' => __('Space Between', 'better-sitemap-for-elementor'),
                         'icon' => 'eicon-justify-space-between-v',
                     ],
                     'space-around' => [
-                        'title' => __('Space Around', 'better-sitemap-elementor'),
+                        'title' => __('Space Around', 'better-sitemap-for-elementor'),
                         'icon' => 'eicon-justify-space-around-v',
                     ],
                     'space-evenly' => [
-                        'title' => __('Space Evenly', 'better-sitemap-elementor'),
+                        'title' => __('Space Evenly', 'better-sitemap-for-elementor'),
                         'icon' => 'eicon-justify-space-evenly-v',
                     ],
                 ],
@@ -1089,33 +1096,33 @@ class Sitemap_Widget extends Widget_Base
         $this->add_responsive_control(
             'column_justify',
             [
-                'label' => __('Justify Columns', 'better-sitemap-elementor'),
+                'label' => __('Justify Columns', 'better-sitemap-for-elementor'),
                 'type' => Controls_Manager::CHOOSE,
                 'label_block' => true,
                 'default' => 'flex-start',
                 'options' => [
                     'flex-start' => [
-                        'title' => __('Start', 'better-sitemap-elementor'),
+                        'title' => __('Start', 'better-sitemap-for-elementor'),
                         'icon' => 'eicon-justify-start-h',
                     ],
                     'center' => [
-                        'title' => __('Center', 'better-sitemap-elementor'),
+                        'title' => __('Center', 'better-sitemap-for-elementor'),
                         'icon' => 'eicon-justify-center-h',
                     ],
                     'flex-end' => [
-                        'title' => __('End', 'better-sitemap-elementor'),
+                        'title' => __('End', 'better-sitemap-for-elementor'),
                         'icon' => 'eicon-justify-end-h',
                     ],
                     'space-between' => [
-                        'title' => __('Space Between', 'better-sitemap-elementor'),
+                        'title' => __('Space Between', 'better-sitemap-for-elementor'),
                         'icon' => 'eicon-justify-space-between-h',
                     ],
                     'space-around' => [
-                        'title' => __('Space Around', 'better-sitemap-elementor'),
+                        'title' => __('Space Around', 'better-sitemap-for-elementor'),
                         'icon' => 'eicon-justify-space-around-h',
                     ],
                     'space-evenly' => [
-                        'title' => __('Space Evenly', 'better-sitemap-elementor'),
+                        'title' => __('Space Evenly', 'better-sitemap-for-elementor'),
                         'icon' => 'eicon-justify-space-evenly-h',
                     ],
                 ],
