@@ -1,0 +1,22 @@
+name: Plugin asset and readme update
+
+on:
+  push:
+    branches:
+      - trunk
+    paths:
+      - .wordpress-org/**
+      - .wordpress-org/blueprints/**
+      - readme.txt
+
+jobs:
+  update-assets-and-readme:
+    name: Update plugin assets and readme to WordPress.org
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: WordPress.org plugin asset/readme update
+      uses: bluehost/wp-plugin-readme-assets-updater@master
+      env:
+        SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+        SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
