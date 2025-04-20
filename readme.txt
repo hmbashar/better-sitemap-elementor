@@ -54,6 +54,12 @@ Yes, the widget allows you to select and display any post type available on your
 Yes, the sitemap is fully responsive and includes customization options for different screen sizes.
 
 
+== Screenshots ==
+
+1. Elementor fields
+2. Preview
+3. Fields and previews
+
 == Changelog ==
 
 = 1.0.0 =
