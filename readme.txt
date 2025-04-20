@@ -57,7 +57,7 @@ Yes, the sitemap is fully responsive and includes customization options for diff
 == Screenshots ==
 
 1. Elementor fields
-2. Preview
+2. Previews
 3. Fields and previews
 
 == Changelog ==
