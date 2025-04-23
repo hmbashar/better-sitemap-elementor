@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Better Sitemap for Elementor
  * Description: A powerful Elementor widget that creates customizable sitemaps for your footer or any widget area. Features include custom post type support, hierarchical page display, category organization, and flexible styling options. It's open source by (Pedro de Barros)
- * Version: 1.0.0
+ * Version: 1.0
  * Author URI: https://profiles.wordpress.org/hmbashar/
  * Author: Md Abul Bashar
  * License: GPLv2 or later
