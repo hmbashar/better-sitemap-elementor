@@ -43,3 +43,7 @@ node_modules
 build
 postcss.config.js
 .wordpress-org
+/vendor
+/tests
+composer.json
+.phpunit.cache

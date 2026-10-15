@@ -2,8 +2,8 @@
 Contributors: hmbashar
 Tags: sitemap, elementor, widget, navigation, footer
 Requires at least: 5.0
-Tested up to: 6.8
-Stable tag: 1.0
+Tested up to: 7.1.3
+Stable tag: 1.0.1
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -28,7 +28,7 @@ Better Sitemap for Elementor is a powerful widget that creates customizable site
 
 * WordPress 5.0 or later
 * Elementor Plugin
-* PHP 7.0 or later
+* PHP 8.0 or later
 
 == Installation ==
 
@@ -61,6 +61,15 @@ Yes, the sitemap is fully responsive and includes customization options for diff
 
 == Changelog ==
 
+= 1.0.1 =
+* Fix: Stylesheet returned 404 on case-sensitive servers (assets/CSS renamed to assets/css)
+* Security: Skip unpublished, deleted and password-protected posts/pages in the sitemap
+* Performance: Select lists are only built in the Elementor editor and are cached
+* Performance: Child pages are fetched with a single query and cached until content changes
+* Performance: Stylesheet loads only on pages that use the widget
+* Limit child page nesting to 2 levels
+* Tested up to WordPress 7.1.3
+
 = 1.0 =
 * Initial release
 * Added customizable sitemap widget
@@ -69,6 +78,9 @@ Yes, the sitemap is fully responsive and includes customization options for diff
 * Included responsive design controls
 
 == Upgrade Notice ==
+
+= 1.0.1 =
+Fixes a missing stylesheet on Linux servers, hides unpublished content from the sitemap and improves performance.
 
 = 1.0.0 =
 Initial release of Better Sitemap for Elementor. Includes all core features for creating customizable sitemaps.

@@ -1,0 +1,15 @@
+{
+  "name": "hmbashar/better-sitemap-for-elementor",
+  "description": "Better Sitemap for Elementor",
+  "license": "GPL-2.0-or-later",
+  "require-dev": {
+    "phpunit/phpunit": "^10.5 || ^11.0",
+    "brain/monkey": "^2.6"
+  },
+  "scripts": {
+    "test": "phpunit"
+  },
+  "config": {
+    "sort-packages": true
+  }
+}

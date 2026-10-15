@@ -102,10 +102,22 @@ class Sitemap_Widget extends Widget_Base
      */
     private function get_posts_list()
     {
+        if (!$this->is_editor_context()) {
+            return [];
+        }
+
+        $options = get_transient('better_sitemap_posts_list');
+        if (false !== $options) {
+            return $options;
+        }
+
         $posts = get_posts([
             'post_type' => 'post',
             'posts_per_page' => -1,
             'post_status' => 'publish',
+            'no_found_rows' => true,
+            'update_post_meta_cache' => false,
+            'update_post_term_cache' => false,
         ]);
 
         $options = [];
@@ -113,15 +125,13 @@ class Sitemap_Widget extends Widget_Base
             $options[$post->ID] = $post->post_title;
         }
 
+        set_transient('better_sitemap_posts_list', $options, DAY_IN_SECONDS);
+
         return $options;
     }
 
     /**
      * Retrieves a list of top-level published pages for use in dropdown/select controls
-     * 
-     * This method queries published pages with no parent (top-level pages) and creates 
-     * an associative array where page IDs are keys and page titles are values. Used to
-     * populate select controls in the widget settings.
      *
      * @since 1.0.0
      * @access private
@@ -130,6 +140,15 @@ class Sitemap_Widget extends Widget_Base
      */
     private function get_pages_list()
     {
+        if (!$this->is_editor_context()) {
+            return [];
+        }
+
+        $options = get_transient('better_sitemap_pages_list');
+        if (false !== $options) {
+            return $options;
+        }
+
         $pages = get_pages([
             'post_status' => 'publish',
             'parent' => 0,
@@ -140,7 +159,74 @@ class Sitemap_Widget extends Widget_Base
             $options[$page->ID] = $page->post_title;
         }
 
+        set_transient('better_sitemap_pages_list', $options, DAY_IN_SECONDS);
+
         return $options;
+    }
+
+    /**
+     * Whether the select options are needed: only in the Elementor editor
+     * (admin/AJAX) and its preview, never on regular frontend renders.
+     *
+     * @return bool
+     */
+    private function is_editor_context()
+    {
+        return is_admin() || \Elementor\Plugin::$instance->preview->is_preview_mode();
+    }
+
+    /**
+     * Styles needed by this widget; enqueued only where the widget is used.
+     *
+     * @return array
+     */
+    public function get_style_depends()
+    {
+        return ['better-sitemap-style'];
+    }
+
+    /**
+     * Maximum depth of nested child pages rendered below a top-level item.
+     */
+    const MAX_CHILD_LEVEL = 2;
+
+    /**
+     * Returns all published pages grouped by parent ID, in menu order.
+     * Built with a single query and cached in a transient.
+     *
+     * @return array parent_id => [ [ 'id' => int, 'title' => string, 'url' => string ], ... ]
+     */
+    private function get_children_map()
+    {
+        static $map = null;
+
+        if (null !== $map) {
+            return $map;
+        }
+
+        $map = get_transient('better_sitemap_children_map');
+        if (false !== $map) {
+            return $map;
+        }
+
+        $pages = get_pages([
+            'post_status' => 'publish',
+            'sort_column' => 'menu_order,post_title',
+            'sort_order' => 'ASC',
+        ]);
+
+        $map = [];
+        foreach ($pages as $page) {
+            $map[(int) $page->post_parent][] = [
+                'id' => (int) $page->ID,
+                'title' => $page->post_title,
+                'url' => get_permalink($page->ID),
+            ];
+        }
+
+        set_transient('better_sitemap_children_map', $map, DAY_IN_SECONDS);
+
+        return $map;
     }
 
     /**
@@ -1156,46 +1242,38 @@ class Sitemap_Widget extends Widget_Base
      */
     private function render_child_pages($parent_id, $level = 1, $icon = null, $settings = [])
     {
-        $child_pages = get_pages([
-            'post_type' => 'page',
-            'post_status' => 'publish',
-            'parent' => $parent_id,
-            'sort_column' => 'menu_order',
-            'sort_order' => 'ASC',
-        ]);
-
-        if (!empty($child_pages)) {
-            echo '<ul class="better-sitemap-list better-sitemap-child-level-' . intval($level) . '">';
-            foreach ($child_pages as $child) {
-                echo '<li  class="better-sitemap-single-item">';
-                echo '<span>';
-
-                // 💡 Determine if the icon should be shown based on level
-                $show_icon = false;
-
-                if ($level === 1 && !empty($settings['child_level_1_show_icon']) && $settings['child_level_1_show_icon'] === 'yes') {
-                    $show_icon = true;
-                }
-
-                if ($level === 2 && !empty($settings['child_level_2_show_icon']) && $settings['child_level_2_show_icon'] === 'yes') {
-                    $show_icon = true;
-                }
-                // Inherit icon from parent repeater item
-                if ($show_icon && !empty($icon)) {
-                    \Elementor\Icons_Manager::render_icon($icon, ['aria-hidden' => 'true']);
-                }
-
-
-                echo '<a href="' . esc_url(get_permalink($child->ID)) . '">' . esc_html($child->post_title) . '</a>';
-                echo '</span>';
-
-                // Recursively continue with next level
-                $this->render_child_pages($child->ID, $level + 1, $icon, $settings);
-
-                echo '</li>';
-            }
-            echo '</ul>';
+        if ($level > self::MAX_CHILD_LEVEL) {
+            return;
         }
+
+        $map = $this->get_children_map();
+
+        if (empty($map[$parent_id])) {
+            return;
+        }
+
+        $show_icon = !empty($icon)
+            && !empty($settings['child_level_' . $level . '_show_icon'])
+            && 'yes' === $settings['child_level_' . $level . '_show_icon'];
+
+        echo '<ul class="better-sitemap-list better-sitemap-child-level-' . intval($level) . '">';
+        foreach ($map[$parent_id] as $child) {
+            echo '<li class="better-sitemap-single-item">';
+            echo '<span>';
+
+            // Inherit icon from parent repeater item
+            if ($show_icon) {
+                \Elementor\Icons_Manager::render_icon($icon, ['aria-hidden' => 'true']);
+            }
+
+            echo '<a href="' . esc_url($child['url']) . '">' . esc_html($child['title']) . '</a>';
+            echo '</span>';
+
+            $this->render_child_pages($child['id'], $level + 1, $icon, $settings);
+
+            echo '</li>';
+        }
+        echo '</ul>';
     }
 
 
@@ -1239,6 +1317,11 @@ class Sitemap_Widget extends Widget_Base
                 $post_id = $item['posts_list'];
             } elseif ($item['content_type'] === 'Page' && !empty($item['pages_list'])) {
                 $post_id = $item['pages_list'];
+            }
+
+            // Skip deleted, unpublished or password-protected content
+            if ($post_id && (!get_post_status($post_id) || 'publish' !== get_post_status($post_id) || post_password_required($post_id))) {
+                $post_id = null;
             }
 
             if ($post_id) {

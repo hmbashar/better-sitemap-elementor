@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Better Sitemap for Elementor
  * Description: A powerful Elementor widget that creates customizable sitemaps for your footer or any widget area. Features include custom post type support, hierarchical page display, category organization, and flexible styling options. It's open source by (Pedro de Barros)
- * Version: 1.0
+ * Version: 1.0.1
  * Author URI: https://profiles.wordpress.org/hmbashar/
  * Author: Md Abul Bashar
  * License: GPLv2 or later
@@ -12,6 +12,8 @@
  */
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
+define('BETTER_SITEMAP_VERSION', '1.0.1');
 
 // Check if Elementor is installed and activated
 function better_sitemap_elementor_is_elementor_active() {
@@ -46,13 +48,26 @@ function better_sitemap_elementor_register_widget($widgets_manager) {
 }
 add_action('elementor/widgets/register', 'better_sitemap_elementor_register_widget');
 
-// Enqueue frontend styles
-function better_sitemap_enqueue_styles() {
-    wp_enqueue_style(
+// Register frontend styles; the widget enqueues them only where it is used (see get_style_depends())
+function better_sitemap_register_styles() {
+    wp_register_style(
         'better-sitemap-style',
-        plugin_dir_url(__FILE__) . 'assets/css/style.css', 
+        plugin_dir_url(__FILE__) . 'assets/css/style.css',
         array(),
-        '1.0.0'
+        BETTER_SITEMAP_VERSION
     );
 }
-add_action('wp_enqueue_scripts', 'better_sitemap_enqueue_styles');
+add_action('elementor/frontend/after_register_styles', 'better_sitemap_register_styles');
+
+// Clear the cached sitemap data whenever content or permalinks change
+function better_sitemap_flush_cache() {
+    delete_transient('better_sitemap_children_map');
+    delete_transient('better_sitemap_posts_list');
+    delete_transient('better_sitemap_pages_list');
+}
+add_action('save_post', 'better_sitemap_flush_cache');
+add_action('deleted_post', 'better_sitemap_flush_cache');
+add_action('trashed_post', 'better_sitemap_flush_cache');
+add_action('untrashed_post', 'better_sitemap_flush_cache');
+add_action('update_option_permalink_structure', 'better_sitemap_flush_cache');
+add_action('update_option_home', 'better_sitemap_flush_cache');
